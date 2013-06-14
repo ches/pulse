@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
   s.has_rdoc = false
   
   s.add_runtime_dependency "rails"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "pry"
 
   s.rubygems_version = %q{1.2.0}
 end
