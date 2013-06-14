@@ -1,32 +1,49 @@
 $LOAD_PATH.unshift 'lib/'
 
-require 'rubygems'
-require 'multi_rails_init'
-
-#mock out some rails related stuff
-
-RAILS_ROOT='.'
-
-def require_dependency(foo)
-  nil
+module Rails
+  module VERSION
+    STRING = '3.2.13'
+    MAJOR = 3
+  end
 end
 
-class ApplicationController < ActionController::Base
-  helper :all
+module ActiveRecord
+  class Base
+  end
 end
 
-def params_from(method, path)
-  ActionController::Routing::Routes.recognize_path(path, :method => method)
+module ActionController
+  class Base
+  end
 end
 
-begin
-  require 'spec'
-  require 'spec/rails'
-rescue LoadError
-  gem 'rspec'
-  gem 'rspec-rails'
-  require 'spec'
-  require 'spec/rails'
+# Rails 3
+module ActionDispatch
+  module Routing
+    class Mapper
+    end
+  end
 end
 
-require 'pulse'
+# Rails 2
+module ActionController
+  module Routing
+    class RouteSet
+      class Mapper
+      end
+    end
+  end
+end
+
+module Helpers
+  def set_active_record_adapter(adapter)
+    ActiveRecord::Base.stub(:connection_pool => stub(:spec => stub(:config => { :adapter => adapter })))
+  end
+end
+
+RSpec.configure do |config|
+  config.include Helpers
+end
+
+require 'pry'
+require 'rails-pulse'
