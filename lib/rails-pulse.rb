@@ -4,6 +4,7 @@ require 'pulse/routes'
 
 module Pulse
   autoload 'ActiveRecordHealthCheck', 'pulse/active_record_health_check'
+  autoload 'RedisHealthCheck', 'pulse/redis_health_check'
 
   extend self
 

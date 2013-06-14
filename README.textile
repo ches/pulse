@@ -13,6 +13,10 @@ h2. Requirements
 * Rails
 * MySQL, Postgres, or sqlite
 
+h2. Optional
+
+* Redis
+
 h2. Installation
 
 h3. Rails 3.x
@@ -62,6 +66,19 @@ Finally, add a route to config/routes.rb:
     map.pulse
     # or customize the URL
     map.pulse '/admin/pulse'
+  </code>
+</pre>
+
+h2. Redis Health Check (optional)
+
+Pulse includes an optional Redis health check. To add the Redis health check, create a new instance of @Pulse::RedisHealthCheck@ with your Redis client connection.
+
+@config/initializers/pulse.rb@:
+
+<pre>
+  <code>
+    require 'rails-pulse'
+    Pulse.health_checks << Pulse::RedisHealthCheck.new($redis)
   </code>
 </pre>
 
