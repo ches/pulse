@@ -84,54 +84,6 @@ describe Pulse do
           subject.pulse
         end
       end
-
-      describe 'adapters' do
-        let(:connection) { stub }
-
-        before(:each) do
-          ActiveRecord::Base.stub(:connection => connection)
-        end
-
-        it 'queries the sqlite3 adapter' do
-          set_active_record_adapter('sqlite3')
-          connection.should_receive(:execute).with('select 1').and_return(stub(:count => 1))
-          subject.should_receive(:render).with(:text => match(/OK/))
-          subject.pulse
-        end
-
-        it 'queries the mysql adapter' do
-          set_active_record_adapter('mysql')
-          connection.should_receive(:execute).with('select 1 from dual').and_return(stub(:num_rows => 1))
-          subject.should_receive(:render).with(:text => match(/OK/))
-          subject.pulse
-        end
-
-        it 'queries the mysql2 adapter' do
-          set_active_record_adapter('mysql2')
-          connection.should_receive(:execute).with('select 1 from dual').and_return(stub(:count => 1))
-          subject.should_receive(:render).with(:text => match(/OK/))
-          subject.pulse
-        end
-
-        it 'queries the postgresql adapter' do
-          set_active_record_adapter('postgresql')
-          connection.should_receive(:execute).with('select 1').and_return(stub(:count => 1))
-          subject.should_receive(:render).with(:text => match(/OK/))
-          subject.pulse
-        end
-
-        it 'queries the postgis adapter' do
-          set_active_record_adapter('postgis')
-          connection.should_receive(:execute).with('select 1').and_return(stub(:count => 1))
-          subject.should_receive(:render).with(:text => match(/OK/))
-          subject.pulse
-        end
-
-        it 'raises an error if the adapter is not recogized' do
-          set_active_record_adapter('webscale')
-          expect { subject.pulse }.to raise_error("Don't know how to check webscale... please to fix?")
-        end
-      end
     end
   end
 end

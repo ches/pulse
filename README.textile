@@ -65,11 +65,30 @@ Finally, add a route to config/routes.rb:
   </code>
 </pre>
 
-This configures pulse to work at the 'pulse' URL.  If you would rather use a different URL:
+h2. Custom Health Checks
+
+You can add custom health checks to Pulse. Pulse will call @#healthy?@ on each health check. If any check returns @false@, Pulse will trigger an error response.
+
+So if you had a custom health check:
 
 <pre>
   <code>
-    map.pulse 'some/other/url'
+    class WebScaleDBHealthCheck
+      def healthy?
+        true # always ;)
+      end
+    end
+  </code>
+</pre>
+
+You could add it to Pulse:
+
+@config/initializers/pulse.rb@:
+
+<pre>
+  <code>
+    require 'rails-pulse'
+    Pulse.health_checks << WebScaleDBHealthCheck.new
   </code>
 </pre>
 
