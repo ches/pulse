@@ -2,7 +2,7 @@ module Pulse
   class ActiveRecordHealthCheck
     def healthy?
       health_method = "#{active_record_adapter}_healthy?"
-      if respond_to?(health_method)
+      if respond_to?(health_method, true)
         send(health_method)
       else
         raise "Don't know how to check #{active_record_adapter}... please to fix?"
@@ -58,3 +58,4 @@ module Pulse
     end
   end
 end
+
